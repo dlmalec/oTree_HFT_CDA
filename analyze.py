@@ -32,6 +32,10 @@ class Processor:
 		'spread': 2000
 	}
 
+	def __init__(self, player_count):
+		self.player_count = player_count
+
+
 	def default(self):
 		""" define the first row"""
 
@@ -41,7 +45,7 @@ class Processor:
 	def update(self, row):
 		""" process a row """
 
-	def is_state(self, row):
+	def is_type(self, row):
 		""" keep row or not"""
 
 	def to_dataframe(self):
@@ -59,8 +63,9 @@ class Processor:
 class StateProcessor(Processor):
 
 	def __init__(self, player_count):
+		super().__init__(player_count)
 		self.init_val = self.__class__.initial['state']    # ? do I need class here ?
-		self.player_count = player_count
+
 
 	def default(self):
 		initial_state= dict()
@@ -76,7 +81,8 @@ class StateProcessor(Processor):
 		self.states = [dict(initial_state)]   # reference trick !!
 		past = initial_state
 		for row in data:
-			if self.is_state(row):
+			if self.is_type(row):
+				#print(new_state)
 				new_state = self.update(row, past)
 				self.states.append(dict(new_state))   # reference trick !!
 				past = new_state
@@ -96,13 +102,14 @@ class StateProcessor(Processor):
 
 	def to_dataframe(self):
 		df = pd.DataFrame.from_records(self.states, index='time')
-#		df['Total MAKER'] = self._rowwisesum(df, 'MAKER')
+		df['Total MAKER'] = self._rowwisesum(df, 'MAKER')
+		df['Total SNIPER'] = self._rowwisesum(df, 'SNIPER')
 		return df
 
 	def _rowwisesum(self, df, value):
-		df_bool= df.where(df == value, 1)
-		df_bool= df.where(df != value, 0)
-		total = df.sum(axis=1)
+		df_bool= df.replace(value, 1)
+		df_bool= df_bool.where(df == value, 0)
+		total = df_bool.sum(axis=1)
 		return total
 
 
@@ -114,7 +121,7 @@ def test():
 	processor = StateProcessor(2)
 	processor.process(market)
 	df = processor.to_dataframe()
-	print(df)
+	df.to_csv('test-1.csv')
 	return df
 
 
