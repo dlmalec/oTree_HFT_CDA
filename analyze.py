@@ -8,15 +8,6 @@ time_start = 0
 group_id = 586
 player_count = 2
 
-# def initialize(player_count, initial):
-#     first_row = {str(player + 1): initial for player in range(player_count)}
-#     first_row.update('time': time_start)
-#     return first_row
-
-# def default(gid, player_count, default):
-#     out = {k: initialize(player_count, v) for k,v in default.items()}
-#     return {gid:out}
-
 
 class MarketEvents:
 
