@@ -2,154 +2,116 @@ import json
 import pandas as pd
 import logging
 
-log =logging.getLogger(__name__)
+log = logging.getLogger(__name__)
+
+time_start = 0
+group_id = 586
+player_count = 2
+
+# def initialize(player_count, initial):
+#     first_row = {str(player + 1): initial for player in range(player_count)}
+#     first_row.update('time': time_start)
+#     return first_row
+
+# def default(gid, player_count, default):
+#     out = {k: initialize(player_count, v) for k,v in default.items()}
+#     return {gid:out}
 
 
+class MarketEvents:
 
-class Market:
+    def __init__(self, filename, group_id):
+        self.group_id = group_id
+        self.read(filename)
 
-	def __init__(self, filename):
-		self.events = self.read(filename)
+    def read(self, filename):
+        try:
+            f = open(filename, 'r').read()
+        except FileNotFoundError:
+            raise Exception('Lab log file not found.')
+        splitted = f.split('\n')
+        events = []
+        for row in splitted[:-1]:   # -1 since we split by a new line
+            record = json.loads(row)
+            if self._is_group(record):
+                events.append(record)
+        self.events = events
 
-	def read(self, filename):
-		try:
-			f = open(filename, 'r').read()
-		except FileNotFoundError:
-			raise Exception('Lab log file not found.')
-		splitted = f.split('\n')
-		events = [json.loads(row) for row in splitted[:-1]]		# since we split by new line you get the -1
-		return events
+    def _is_group(self, row):
+        keep = 1 if row['group'] == self.group_id else 0
+        return keep
 
-	def provide(self):
-		return self.events
+    def __iter__(self):
+        return iter(self.events)
 
-class Processor: 
-
-	initial = {
-		'state': 'OUT',
-		'speed': False,
-		'spread': 2000
-	}
-
-	def __init__(self, player_count):
-		self.player_count = player_count
-		self.init_val = None
-
-	def default(self):
-		initial_state= dict()
-		for player in range(self.player_count):
-			player_no = str(player + 1)
-			initial_state[player_no] = self.init_val
-		initial_state['time'] = 0
-		return initial_state
-
-	def process(self, market):
-		""" process market data """
-
-	def update(self, row):
-		""" process a row """
-
-	def is_type(self, row, field):
-		keep = (1 if row['type'] == field else 0)
-		return keep
-
-	def to_dataframe(self):
-		""" 
-		convert to a dataframe
-		do operations if necessary
-		"""
-
-	def _rowwisesum(self, df, value):
-		df_bool= df.replace(value, 1)
-		df_bool= df_bool.where(df == value, 0)
-		total = df_bool.sum(axis=1)
-		return total
-
-	def export(self, row):
-		""" export as csv """
+"""
+module level functions to process each row
+"""
+def update_choice(event, choice_type, choice_state):
+    new_state = dict(choice_state[-1])
+    player = str(event['context']['player_id'])
+    new_choice = event['context'][choice_type]
+    new_state[player] = new_choice
+    logtime = event['time']
+    new_state['time'] = logtime
+    choice_state.append(new_state)
+    return choice_state
 
 
-class StateProcessor(Processor):
+class MarketState:
 
-	def __init__(self, player_count):
-		super().__init__(player_count)
-		self.init_val = self.__class__.initial['state']    # ? do I need class here ?
+    start_state = {
+        'state': 'OUT',
+        'speed': False,
+        'profit': 0
+    }
 
-	def process(self, market):
-		initial_state = self.default()
-		data = market.provide() 
-		self.states = [dict(initial_state)]   # reference trick !!
-		past = initial_state
-		for row in data:
-			if self.is_type(row, 'state'):
-				new_state = self.update(row, past)
-				self.states.append(dict(new_state))   # reference trick !!
-				past = new_state
+    processors = {
+        'state': update_choice,
+        'speed': update_choice,
+        'profit': None  # TODO
+    }
 
-	def update(self, row, previous_state):
-		new_state = previous_state
-		logtime = row['time']
-		updating_player  = str(row['context']['player_id'])
-		state = row['context']['state']
-		new_state[updating_player] = state
-		new_state['time'] = logtime
-		return new_state
+    def __init__(self, market_events, player_count):
+        self.events = market_events
+        self.pc = player_count
+        self.init_states()
 
-	def to_dataframe(self):
-		df = pd.DataFrame.from_records(self.states, index='time')
-		df['Total MAKER'] = self._rowwisesum(df, 'MAKER')
-		df['Total SNIPER'] = self._rowwisesum(df, 'SNIPER')
-		return df
+    def init_states(self):
+        self.state = {k: self._default(v) for k, v in self.start_state.items()}
 
+    def _default(self, initial):
+        first_row = {str(i + 1): initial for i in range(self.pc)}
+        first_row.update({'time': time_start})
+        return [first_row]
 
-class SpeedProcessor(Processor):
+    def process(self):
+        for event in self.events:
+            typ = event['type']
+            try:
+                current_state = self.state[typ]
+                new_state = self.processors[typ](event, typ, current_state)
+            except KeyError:
+                log.info('Processor not available for the type.')
+                continue
+            self.state[typ] = new_state
 
-	def __init__(self, player_count):
-		super().__init__(player_count)
-		self.init_val = self.__class__.initial['speed']    # ? do I need class here ?
+    def dump(self):
+        return {self.events.group_id : self.state}
+    
+    def export_json(self, filename):
+        out = self.dump()
+        with open(filename, 'w') as f:
+            json.dump(out, f)
 
-	def process(self, market):
-		initial_state = self.default()
-		data = market.provide() 
-		self.states = [dict(initial_state)]   # reference trick !!
-		past = initial_state
-		for row in data:
-			if self.is_type(row, 'speed'):
-				new_state = self.update(row, past)
-				self.states.append(dict(new_state))   # reference trick !!
-				past = new_state
-
-	def update(self, row, previous_state):
-		new_state = previous_state
-		logtime = row['time']
-		updating_player  = str(row['context']['player_id'])
-		state = row['context']['speed']
-		new_state[updating_player] = state
-		new_state['time'] = logtime
-		return new_state
-
-	def to_dataframe(self):
-		df = pd.DataFrame.from_records(self.states, index='time')
-		f = self._rowwisesum(df, True)
-		s = self._rowwisesum(df, False)
-		df['Total Fast'] = f
-		df['Total Slow'] = s
-		return df
 
 
 def test():
-	market = Market('../logs/exp_20180522 14.04.txt')
-	processor = SpeedProcessor(2)
-	processor.process(market)
-	df = processor.to_dataframe()
-	df.to_csv('test-3.csv')
-	return df
+    market = MarketEvents('./logs/exp_20180522 14.04.txt', group_id)
+    state = MarketState(market, player_count)
+    state.process()
+    state.export_json('test.json')
 
 
 if __name__ == '__main__':
-	test()
-
-
-
-
-
+    test()
