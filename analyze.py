@@ -2,6 +2,8 @@ import json
 import pandas as pd
 import logging
 
+author = 'hasan ali demirci'
+
 log = logging.getLogger(__name__)
 
 time_start = 0
