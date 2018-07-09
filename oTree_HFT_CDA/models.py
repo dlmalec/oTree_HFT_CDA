@@ -29,7 +29,7 @@ Your app description
 
 class Constants(BaseConstants):
     name_in_url = 'oTree_HFT_CDA'
-    players_per_group = 4
+    players_per_group = 6
     num_rounds = 1
 
     speed_cost = 0.1 * (10 ** -6)   # yes, it is 10 ** -5.
@@ -292,12 +292,14 @@ class Player(BasePlayer):
         msgs = [self.stage_enter('B'), self.stage_enter('S')]
         self.group.send_exchange(msgs, delay=True, speed=self.speed)
 
+
     def _leave_market(self):
         """
         exit market after switching from maker
         pass two ouch messages to cancel active orders
         """
-        self.group.broadcast(ClientMessage.spread_change(self.id_in_group))
+        if self.state == "MAKER":
+            self.group.broadcast(ClientMessage.spread_change(self.id_in_group))
         ords = self.order_store().get_active_set().values()
         if ords:
             msgs = [self.stage_cancel(o) for o in ords]
@@ -417,6 +419,9 @@ class Player(BasePlayer):
         orderstore.activate(stamp, order)
         log.info('Player%d: Confirm: Enter: %s.' % (self.id, tok))
         self.save_order_store(orderstore)
+        if self.state == "MAKER":
+            self.group.broadcast({"SPRCHG":{self.id_in_group:{"B":(self.fp() - self.spread / 2), "A":(self.fp() + self.spread / 2)}}})
+        log.info('Player%d: Confirm: Enter: %s.' % (self.id_in_group, tok))
 
     def confirm_replace(self, msg):
         """
@@ -433,6 +438,9 @@ class Player(BasePlayer):
         orderstore.activate(stamp, new_order)
         self.save_order_store(orderstore)
         log.info('Player%d: Confirm: Replace %s with %s.' % (self.id, ptok, tok))
+        if self.state == "MAKER":
+            self.group.broadcast({"SPRCHG":{self.id_in_group:{"B":(self.fp() - self.spread / 2), "A":(self.fp() + self.spread / 2)}}})
+        log.info('Player%d: Confirm: Replace %s with %s.' % (self.id_in_group, ptok, tok))
 
     def confirm_cancel(self, msg):
         """
