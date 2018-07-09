@@ -32,7 +32,7 @@ class Constants(BaseConstants):
     players_per_group = 6
     num_rounds = 1
 
-    speed_cost = 0.1 * (1e-6) * (1e5)  # yes, it is 10 ** -5.
+    speed_cost = 0.01 * (1e4) * (1e-9)  # yes, it is 10 ** -5.
     default_fp = 10 ** 6    #   default fundamental price
 
     exc_host = '127.0.0.1'  # ip of exchange hosting machine

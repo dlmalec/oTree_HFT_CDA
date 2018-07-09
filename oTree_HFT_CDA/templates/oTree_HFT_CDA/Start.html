@@ -1200,7 +1200,7 @@ Spread_Graph.listen();
         
         var profitDecrement = 0;
         if(speed){
-            profitDecrement = (graph.profitSegments[graph.profitSegments.length - 1]["endTime"] - graph.profitSegments[graph.profitSegments.length - 1]["startTime"]) * -1e-8;
+            profitDecrement = (graph.profitSegments[graph.profitSegments.length - 1]["endTime"] - graph.profitSegments[graph.profitSegments.length - 1]["startTime"]) * -({{Constants.speed_cost}});
         }
 
 
