@@ -113,6 +113,7 @@ window.onload = function () {
         if(obj.FPC != undefined){
             Spread_Graph.drawMyLine({}, 0, {}, true);
             var difference = $('#fp').text() - obj.FPC;
+            console.log(difference + " this is the difference");
             $('#fp').html(obj.FPC);
             Spread_Graph.clear();
             Spread_Graph.drawMyLine({}, difference / 10);
@@ -399,8 +400,8 @@ window.onload = function () {
     var id;
     var spread_lines = {};
 
-    var max_spread = 2000; // Pull from Constansts
-    var default_spread = 1000;
+    var max_spread = 20000; // Pull from Constansts
+    var default_spread = 10000;
 
     var smallest_spread = {"key":-1, "spread":max_spread};
 
@@ -800,7 +801,7 @@ window.onload = function () {
             if (socket.readyState === socket.OPEN) {
                 socket.send(JSON.stringify(msg));
             }
-            $("#spread_value").text('+-$'+(my_spread / 1000).toFixed(2));
+            $("#spread_value").text('+-$'+(my_spread / 10000).toFixed(2));
         }
 
         Spread_Graph.start = drawStartState;
@@ -826,7 +827,7 @@ Spread_Graph.listen();
     /*
      * set of variables we added that were not part of the original solution
      */
-    graph.maxSpread = 2000;
+    graph.maxSpread = 20000;
 
     /*
      * Set of variables we update from oTree
@@ -894,7 +895,7 @@ Spread_Graph.listen();
 
     graph.axisLabelWidth = 40;    //used                                  //Width of area where price axis labels are drawn
     graph.graphPaddingRight = 20;  //used                                 // how far from the x axis label that the line stops moving
-    graph.graphAdjustSpeedProfit = 10;                              //speed that profit price axis adjusts in pixels per frame
+    graph.graphAdjustSpeedProfit = 100;                              //speed that profit price axis adjusts in pixels per frame
     graph.numberOfTicks = 10;
     graph.profitPriceGridIncrement = graph.priceRange / graph.numberOfTicks;                             //amount between each line on profit price axis
     
@@ -994,7 +995,7 @@ Spread_Graph.listen();
         // what is set now
         var curCenterProfit = (graph.maxPriceProfit + graph.minPriceProfit) / 2;
 
-        if (Math.abs(graph.centerPriceProfit - curCenterProfit) > 1000) {
+        if (Math.abs(graph.centerPriceProfit - curCenterProfit) > 10000) {
             graph.profitPriceLines = calcPriceGridLines(graph.maxPriceProfit, graph.minPriceProfit, graph.profitPriceGridIncrement);
             //adjust per frame what the max and min should be
             if (graph.centerPriceProfit > curCenterProfit) {
@@ -1085,7 +1086,7 @@ Spread_Graph.listen();
             })
             .attr("class", "price-grid-line-text")
             .text(function (d) {
-                return d / 1000;
+                return d / 10000;
         });
     };
 
@@ -1161,7 +1162,7 @@ Spread_Graph.listen();
         // Print to console.log everytime a second occurs
         if((graph.previousTime != Math.trunc(graph.timeSinceStart / nanoToSec)) && graph.debug["secondTick"]){
             graph.previousTime = Math.trunc(graph.timeSinceStart / nanoToSec);
-            console.log(graph.previousTime)
+         
         } 
 
         graph.curTimeX = mapTimeToXAxis(graph.currentTime);
@@ -1238,8 +1239,8 @@ Spread_Graph.listen();
 
     // First Functions
     // 10000 <- 
-    var startFP = 10000;
-    var startingWealth = 20000;
+    var startFP = 1000000;
+    var startingWealth = 200000;
 
     init(startFP, startingWealth, "secondTick");
 
