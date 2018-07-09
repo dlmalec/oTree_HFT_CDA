@@ -150,15 +150,15 @@ SESSION_CONFIG_DEFAULTS = {
     'participation_fee': 0.00,
     'doc': "Investor and jump files must be csvs.",
     'mturk_hit_settings': mturk_hit_settings,
-    'investors_url': 'ws://127.0.0.1:80/hft_investor/' ,
-    'jumps_url': 'ws://127.0.0.1:80/hft_jump/',
+    'investors_url': 'ws://127.0.0.1:8000/hft_investor/' ,
+    'jumps_url': 'ws://127.0.0.1:8000/hft_jump/',
 }
 
 SESSION_CONFIGS = [
     {
         'name': 'oTree_HFT_CDA',
         'display_name': 'High Frequency Trading CDA',
-        'num_demo_participants': 4,
+        'num_demo_participants': 6,
         'investors_file': os.path.join(os.getcwd(), 'raw/inv_test.csv'),
         'jumps_file': os.path.join(os.getcwd(), 'raw/jump_test.csv'),
         'app_sequence': ['oTree_HFT_CDA'],

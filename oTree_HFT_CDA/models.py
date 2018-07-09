@@ -29,13 +29,13 @@ Your app description
 
 class Constants(BaseConstants):
     name_in_url = 'oTree_HFT_CDA'
-    players_per_group = 6
+    players_per_group = 4
     num_rounds = 1
 
     speed_cost = 0.1 * (10 ** -6)   # yes, it is 10 ** -5.
-    default_fp = 10 ** 5    #   default fundamental price
+    default_fp = 10 ** 6    #   default fundamental price
 
-    exc_host = 'exchanges'  # ip of exchange hosting machine
+    exc_host = '127.0.0.1'  # ip of exchange hosting machine
 
     short_delay = 0.1   # slow players delay
     long_delay = 0.5    # fast players delay
@@ -214,12 +214,12 @@ class Player(BasePlayer):
     # basic state variables
     state = models.StringField(initial='OUT')
     speed = models.BooleanField(initial=0)  # 0 or 1
-    spread = models.IntegerField(initial=200)
+    spread = models.IntegerField(initial=20000)
     channel = models.CharField(max_length=255)
     ready = models.BooleanField(initial=0)
 
 #    fp = models.IntegerField(initial=100000)
-    profit = models.IntegerField(initial=10000)
+    profit = models.IntegerField(initial=200000)
     time_of_speed_change = models.BigIntegerField()
 
     # Player actions
@@ -688,7 +688,7 @@ class Investor(Model):
         self.invest(side)
 
     def invest(self, side):
-        p = (214748.3647 if side == 'B' else 0)
+        p = (2147483647 if side == 'B' else 0)
         order = Order(0, self.order_count, side=side, price=p, time_in_force=0)
         ouch = translate.enter(order)
         log.debug('Investor sends an order: %s' % order.token)

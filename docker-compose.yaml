@@ -1,7 +1,7 @@
 # the same as docker-compose.yaml, but for people who want to build the image
 # and run the server on their own PC
 
-version: "3"
+version: "2"
 
 services:
   database:
