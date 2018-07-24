@@ -1,0 +1,26 @@
+demo:
+  number-of-participants: 8
+files:
+  dir: session_config
+  folder: 20180724/Period1/
+  investors:
+    group_1: https://raw.githubusercontent.com/Leeps-Lab/oTree_HFT_CDA/master/session_config/20180724/Period1/investors_period1_group1.csv
+  jumps:
+    group_1: https://raw.githubusercontent.com/Leeps-Lab/oTree_HFT_CDA/master/session_config/20180724/Period1/jumps_period1_group1.csv
+group:
+  group-assignments: '[[3, 4, 1, 7, 6, 2, 8, 5]]'
+  number-of-groups: 1
+  players-per-group: 8
+market:
+  design: CDA
+  matching-engine-host: exchanges
+parameters:
+  fundamental-price: 100
+  initial-endowment: 20
+  initial-spread: 1
+  max-spread: 2
+  session-length: 240
+  speed-cost: 0.022
+session:
+  display_name: CDA Production
+  session_name: 20180724_cda_period_1
