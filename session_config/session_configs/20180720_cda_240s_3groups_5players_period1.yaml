@@ -1,5 +1,5 @@
 demo:
-  number-of-participants: 15
+  number-of-participants: 5
 files:
   dir: session_config
   folder: 20180720/Period1/

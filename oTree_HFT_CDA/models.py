@@ -167,23 +167,24 @@ class Group(BaseGroup):
     # ready_players = models.IntegerField(initial=0)
 
     def start(self):
-        self.connect_to_exchange()
-        self.send_exchange(translate.system_start('S'))
-        self.broadcast(
-            ClientMessage.start_session()
-        )
-        self.spawn(
-            Constants.investor_py, 
-            Constants.investor_url, 
-            self.investor_file
-        )
-        self.spawn(
-            Constants.jump_py, 
-            Constants.jump_url,
-            self.jump_file
-        )
-        self.is_trading = True
-        self.save()
+        if not self.is_trading:
+            self.connect_to_exchange()
+            self.send_exchange(translate.system_start('S'))
+            self.broadcast(
+                ClientMessage.start_session()
+            )
+            self.spawn(
+                Constants.investor_py, 
+                Constants.investor_url, 
+                self.investor_file
+            )
+            self.spawn(
+                Constants.jump_py, 
+                Constants.jump_url,
+                self.jump_file
+            )
+            self.is_trading = True
+            self.save()
 
     def connect_to_exchange(self):
         log.info("Group%d: Connecting to exchange on port %d" % (self.id, self.exch_port))
