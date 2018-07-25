@@ -1,5 +1,5 @@
 demo:
-  number-of-participants: 5
+  number-of-participants: 10
 files:
   dir: session_config
   folder: 20180724/Period1/
@@ -8,12 +8,12 @@ files:
   jumps:
     group_1: https://raw.githubusercontent.com/Leeps-Lab/oTree_HFT_CDA/master/session_config/20180724/Period1/jumps_period1_group1.csv
 group:
-  group-assignments: '[[5, 2, 3, 4, 1]]'
+  group-assignments: '[[9, 4, 6, 1, 7, 2, 5, 3, 10, 8]]'
   number-of-groups: 1
-  players-per-group: 5
+  players-per-group: 10
 market:
   design: CDA
-  matching-engine-host: "127.0.0.1"
+  matching-engine-host: exchanges
 parameters:
   fundamental-price: 100
   initial-endowment: 20
