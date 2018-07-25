@@ -19,12 +19,14 @@ class InfoTable extends PolymerElement {
           width:100%;
           border: rgb(200, 200, 200) 3px solid;
           table-layout : auto;
-          
         }
         td{
           margin-top:10px; 
           text-align:center;
           margin-left:50%;
+        }
+        tr{
+          border:solid grey 3px;
         }
       </style>
       

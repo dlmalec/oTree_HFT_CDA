@@ -183,6 +183,7 @@ class ProfitGraph extends PolymerElement {
     Profit_Graph.drawPriceAxis = this.drawPriceAxis;
     Profit_Graph.drawProfit = this.drawProfit;
     Profit_Graph.draw = this.draw;
+    Profit_Graph.clear = this.clear;
     Profit_Graph.init =  this.init;
   }
 
@@ -460,6 +461,10 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
         requestAnimationFrame(Profit_Graph.draw);
 
         }
+    clear(){
+        //Called when session is over and Result.html is loading
+        Profit_Graph.profitSVG.selectAll("*").remove();
+    }
      
     init(startFP, startingWealth) {
         for(var i = 2; i < arguments.length; i++){

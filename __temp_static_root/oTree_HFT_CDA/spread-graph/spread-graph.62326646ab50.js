@@ -113,10 +113,6 @@ g{
     //Activating the event listener
     Spread_Graph.listen();
 
-    /*
-        Hard coded values
-    */
-
   }
   start(){
     /*Drawing the start state when the window opens*/

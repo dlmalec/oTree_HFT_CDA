@@ -28,7 +28,7 @@ g{
 }
 
 .others_line{
-  stroke:rgb(2, 3, 4);
+  stroke:lightgrey;
   stroke-width:2px;
 }
 
@@ -112,6 +112,10 @@ g{
     Spread_Graph.start();
     //Activating the event listener
     Spread_Graph.listen();
+
+    /*
+        Hard coded values
+    */
 
   }
   start(){
