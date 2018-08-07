@@ -481,7 +481,7 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
         Profit_Graph.previousTime = 0;
         // nanoseconds per picxel 
         Profit_Graph.nanosecondPerPixel = Profit_Graph.timeInterval / (Profit_Graph.profitElementWidth - Profit_Graph.axisLabelWidth - Profit_Graph.graphPaddingRight);   
-        // the amount of nano taken up by the axisLabelWidth ad graphPadding riht
+        // the amount of nano taken up by the axisLabelWidth ad graphPadding right
         Profit_Graph.advanceTimeShown = Profit_Graph.nanosecondPerPixel * (Profit_Graph.axisLabelWidth + Profit_Graph.graphPaddingRight);
         // collect an array of price values where the horizontal lines will be drawn
         Profit_Graph.profitPriceLines = Profit_Graph.calcPriceGridLines(Profit_Graph.maxPriceProfit, Profit_Graph.minPriceProfit, Profit_Graph.profitPriceGridIncrement);
