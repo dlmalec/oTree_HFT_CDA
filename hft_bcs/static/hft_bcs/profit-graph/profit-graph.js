@@ -324,7 +324,7 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
     }
     calcBatchLines(startTime, endTime, increment){
         var timeLineVal = startTime - ((startTime - Spread_Graph.adminStartTime) % increment);
-         var lines = [];
+        var lines = [];
          while (timeLineVal < endTime) {
             lines.push(timeLineVal);
             timeLineVal += increment;
@@ -332,7 +332,7 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
          return lines;
     }
     drawBatchLines(){
-
+        
     }
 
     drawPriceGridLines(priceMapFunction) {
