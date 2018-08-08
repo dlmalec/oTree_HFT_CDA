@@ -127,10 +127,10 @@ class InputSection extends PolymerElement {
       <p style="text-align: center; font-size:16px; margin-left: 50%; margin-top:40px;">Speed</p>
 <label class="switch" style="margin-left: 50%; margin-top: -10px;" >
           <br>
-          <input id="speed_checkbox" type="checkbox" on-click="updatespeed">
+          <input id="speed_checkbox" type="checkbox" on-click="updateSpeed">
           <span class="slider round"></span>
 </label>
-
+<br>
     `;
   }
 
@@ -148,8 +148,12 @@ class InputSection extends PolymerElement {
     this.socket = socketActions.socket;
     //Start as speed false
     this.speed = false;
+    Input_Section.shadow_dom =  document.querySelector("input-section").shadowRoot;
+    Input_Section.shadow_dom_D3 = d3.select(Input_Section.shadow_dom);
+    Input_Section.shadow_dom_D3.append("div").attr("id","timer");
+    console.log(Input_Section.shadow_dom);
     Input_Section.Button_Pressed = this.Button_Pressed;
-
+    Input_Section.startBatchTimer = this.startBatchTimer;
   }
 
   makerClick(input_object){
@@ -347,7 +351,21 @@ class InputSection extends PolymerElement {
         }
 
     }
-    updatespeed(input_object){
+
+    startBatchTimer(){
+        $("#timer").pietimer({
+            timerSeconds: 3,
+            color: 'SkyBlue',
+            fill: false,
+            showPercentage: false,
+            callback: function() {
+                $('#timer').pietimer('reset');
+                $('#timer').pietimer('start');
+            }
+        });
+    }
+
+    updateSpeed(input_object){
       if(document.querySelector('info-table').getAttribute("player_role") != "OUT"){
           //If you arent out you can turn your speed on
 
@@ -382,7 +400,6 @@ class InputSection extends PolymerElement {
       } else {
          input_object.path[0].checked = false;
       }
-
     }
 }
 window.customElements.define('input-section', InputSection);

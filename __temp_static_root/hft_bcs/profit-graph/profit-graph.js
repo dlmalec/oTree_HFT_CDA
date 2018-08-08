@@ -185,6 +185,8 @@ class ProfitGraph extends PolymerElement {
     Profit_Graph.drawPriceAxis = this.drawPriceAxis;
     Profit_Graph.drawProfit = this.drawProfit;
     Profit_Graph.draw = this.draw;
+    Profit_Graph.calcBatchLines = this.calcBatchLines; 
+    Profit_Graph.drawBatchLines = this.drawBatchLines; 
     Profit_Graph.clear = this.clear;
     Profit_Graph.init =  this.init;
   }
@@ -320,6 +322,18 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
             })
             .attr("class", "time-grid-line-text");
     }
+    calcBatchLines(startTime, endTime, increment){
+        var timeLineVal = startTime - ((startTime - Spread_Graph.adminStartTime) % increment);
+         var lines = [];
+         while (timeLineVal < endTime) {
+            lines.push(timeLineVal);
+            timeLineVal += increment;
+         }
+         return lines;
+    }
+    drawBatchLines(){
+
+    }
 
     drawPriceGridLines(priceMapFunction) {
 
@@ -438,7 +452,10 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
             Profit_Graph.timeLines = Profit_Graph.calcTimeGridLines(startTime, endTime, Profit_Graph.timeIncrement);
         } 
         //Invoke all of the draw functions
-        Profit_Graph.drawTimeGridLines();
+        if(oTreeConstants.FBA == false){
+            Profit_Graph.drawTimeGridLines();
+        }
+        
         Profit_Graph.drawPriceGridLines();
         Profit_Graph.drawPriceAxis();
 
@@ -481,7 +498,7 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
         Profit_Graph.previousTime = 0;
         // nanoseconds per picxel 
         Profit_Graph.nanosecondPerPixel = Profit_Graph.timeInterval / (Profit_Graph.profitElementWidth - Profit_Graph.axisLabelWidth - Profit_Graph.graphPaddingRight);   
-        // the amount of nano taken up by the axisLabelWidth ad graphPadding riht
+        // the amount of nano taken up by the axisLabelWidth ad graphPadding right
         Profit_Graph.advanceTimeShown = Profit_Graph.nanosecondPerPixel * (Profit_Graph.axisLabelWidth + Profit_Graph.graphPaddingRight);
         // collect an array of price values where the horizontal lines will be drawn
         Profit_Graph.profitPriceLines = Profit_Graph.calcPriceGridLines(Profit_Graph.maxPriceProfit, Profit_Graph.minPriceProfit, Profit_Graph.profitPriceGridIncrement);

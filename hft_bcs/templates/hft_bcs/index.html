@@ -98,6 +98,12 @@ Constant, Player, and Group Information from oTree stored in the oTreeConstants 
     oTreeConstants.timeOffset = 0; 
     oTreeConstants.speed_cost = {{player.speed_cost}};
     oTreeConstants.end_msg = "off";
+    oTreeConstants.batch_length = 3;
+    oTreeConstants.FBA = false;
+    if(oTreeConstants.batch_length != undefined){
+        oTreeConstants.FBA  = true; 
+        console.log("also called");
+    }
 /*
 IMPORTANT:
 Graph_Features is an object that stores the features of the profit and spread graph that are only able to be retrieved in index.html. This object is used in spread-graph.js and profit-graph.js
@@ -305,10 +311,19 @@ Socket Actions
             var total_traders = total_makers + total_snipers;
             document.querySelector("info-table").num_traders = total_traders;
             document.querySelector("info-table").num_makers = total_makers;
-        } else if(obj.BATCH != undefined){
-            console.log("FBA Batch Message");
+
+            //For testing purposes
+            console.log("FBA Batch Message in index.html");
             //Flash Spread Graph
             //Draw the next lines in Profit Graph with time period
+            Spread_Graph.drawBatchFlash();
+            Spread_Graph.startBatchTimer();
+        } else if(obj.BATCH != undefined){
+            console.log("FBA Batch Message in index.html");
+            //Flash Spread Graph
+            Spread_Graph.drawBatchFlash();
+            //draw timer reset
+            //Draw the next lines in Profit Graph with time period 
         }
 
     };

@@ -11,6 +11,12 @@ class SpreadGraph extends PolymerElement {
     //Second we add the HTML neccessary to be manipulated in the constructor and the subsequent functions
     Spread_Graph.spread_graph_shadow_dom.innerHTML = `
 <style>
+    .my-batch-flash {
+        stroke: BlueViolet;
+        stroke-width: 5;
+        fill-opacity: 0;
+        fill: pink;
+    }
     .line {
         stroke: steelblue;
         stroke-width: 3.5px;
@@ -69,6 +75,7 @@ class SpreadGraph extends PolymerElement {
 </style>
 
 <svg id="spread-graph"></svg>
+<svg id="timer"></svg>
 `;
 
   /*  Spread Constant Information 
@@ -85,13 +92,16 @@ class SpreadGraph extends PolymerElement {
 
     //Getting the Shadow DOM variable to be able to use to be selected by d3
     Spread_Graph.spread_svg_dom = Spread_Graph.spread_graph_shadow_dom.querySelector("#spread-graph");
+    Spread_Graph.timer_svg_dom = Spread_Graph.spread_graph_shadow_dom.querySelector("#timer");
     Spread_Graph.spread_svg_dom.style.width = Spread_Graph.spread_width;
     Spread_Graph.spread_svg_dom.style.height = Spread_Graph.spread_height;
     Spread_Graph.smallest_spread = true;
+    Spread_Graph.batchLines = [];
 
 
     //d3 Selection of the SVG we will be using this variable from now on
     Spread_Graph.spread_svg = d3.select(Spread_Graph.spread_svg_dom);
+    Spread_Graph.timer_svg = d3.select(Spread_Graph.timer_svg_dom);
     
     /*
       Functions attached to the Spread_Graph object
@@ -109,6 +119,8 @@ class SpreadGraph extends PolymerElement {
     Spread_Graph.drawSpreadBar = this.drawSpreadBar;
     Spread_Graph.updateSmallest = this.updateSmallest;
     Spread_Graph.updateBidAndAsk = this.updateBidAndAsk;
+    Spread_Graph.drawBatchFlash = this.drawBatchFlash;
+    Spread_Graph.startBatchTimer = this.startBatchTimer;
 
     //Creating the start state
     Spread_Graph.start();
@@ -133,6 +145,17 @@ class SpreadGraph extends PolymerElement {
                        .attr("y2", Spread_Graph.spread_height/2)
                        .style("stroke", "grey")
                        .style("stroke-width", 3);
+
+    if(oTreeConstants.FBA == true){
+        console.log("Calleeeddd");
+        var batch_timer = Spread_Graph.timer_svg.append("svg:line")
+                            .attr("x1", 0)
+                            .attr("y1", Spread_Graph.spread_height - 10)
+                            .attr("x2", Spread_Graph.spread_width)
+                            .attr("y2", Spread_Graph.spread_height - 10)
+                            .style("stroke", "grey")
+                            .style("stroke-width", 3);
+    }                       
   }
 
   listen(){
@@ -229,6 +252,17 @@ class SpreadGraph extends PolymerElement {
             }
             // console.log(msg);
             document.querySelector('info-table').spread_value = (my_spread / 10000).toFixed(2);
+  }
+
+  startBatchTimer(){
+      Spread_Graph.spread_svg.append("rect")
+        .attr("id", "remove")
+        .attr("x", 0)
+        .attr("width", Spread_Graph.spread_width)
+        .attr("y", Spread_Graph.spread_height)
+        .attr("height", 25)
+        .attr("class", "my-batch-flash")
+        .transition().duration(5000).style("opacity", 0);
   }
 
   drawMySpreadLines(newLines={}, offset=0, exec={}, inv=false){
@@ -492,6 +526,12 @@ class SpreadGraph extends PolymerElement {
             document.querySelector('info-table').curr_bid = "N/A";
             document.querySelector('info-table').curr_ask = "N/A";
         }
+    }
+
+    drawBatchFlash(){
+        //Flash purple on border whenever a batch message is recieved from the exchange
+        Spread_Graph.spread_svg.transition().style("border","solid purple 3px").duration(0);
+        Spread_Graph.spread_svg.transition().style("border","none").delay(1000);
     }
   }
 

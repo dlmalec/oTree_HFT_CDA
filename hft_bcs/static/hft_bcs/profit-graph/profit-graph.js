@@ -185,6 +185,8 @@ class ProfitGraph extends PolymerElement {
     Profit_Graph.drawPriceAxis = this.drawPriceAxis;
     Profit_Graph.drawProfit = this.drawProfit;
     Profit_Graph.draw = this.draw;
+    Profit_Graph.calcBatchLines = this.calcBatchLines; 
+    Profit_Graph.drawBatchLines = this.drawBatchLines; 
     Profit_Graph.clear = this.clear;
     Profit_Graph.init =  this.init;
   }
@@ -320,6 +322,18 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
             })
             .attr("class", "time-grid-line-text");
     }
+    calcBatchLines(startTime, endTime, increment){
+        var timeLineVal = startTime - ((startTime - Spread_Graph.adminStartTime) % increment);
+         var lines = [];
+         while (timeLineVal < endTime) {
+            lines.push(timeLineVal);
+            timeLineVal += increment;
+         }
+         return lines;
+    }
+    drawBatchLines(){
+
+    }
 
     drawPriceGridLines(priceMapFunction) {
 
@@ -438,7 +452,10 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
             Profit_Graph.timeLines = Profit_Graph.calcTimeGridLines(startTime, endTime, Profit_Graph.timeIncrement);
         } 
         //Invoke all of the draw functions
-        Profit_Graph.drawTimeGridLines();
+        if(oTreeConstants.FBA == false){
+            Profit_Graph.drawTimeGridLines();
+        }
+        
         Profit_Graph.drawPriceGridLines();
         Profit_Graph.drawPriceAxis();
 
