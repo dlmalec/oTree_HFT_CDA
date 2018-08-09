@@ -352,19 +352,6 @@ class InputSection extends PolymerElement {
 
     }
 
-    startBatchTimer(){
-        $("#timer").pietimer({
-            timerSeconds: 3,
-            color: 'SkyBlue',
-            fill: false,
-            showPercentage: false,
-            callback: function() {
-                $('#timer').pietimer('reset');
-                $('#timer').pietimer('start');
-            }
-        });
-    }
-
     updateSpeed(input_object){
       if(document.querySelector('info-table').getAttribute("player_role") != "OUT"){
           //If you arent out you can turn your speed on

@@ -147,7 +147,7 @@ class SpreadGraph extends PolymerElement {
                        .style("stroke-width", 3);
 
     if(oTreeConstants.FBA == true){
-
+        console.log("Calleeeddd");
         var batch_timer = Spread_Graph.timer_svg.append("svg:line")
                             .attr("x1", 0)
                             .attr("y1", Spread_Graph.spread_height - 10)

@@ -102,7 +102,6 @@ Constant, Player, and Group Information from oTree stored in the oTreeConstants 
     oTreeConstants.FBA = false;
     if(oTreeConstants.batch_length != undefined){
         oTreeConstants.FBA  = true; 
-        console.log("also called");
     }
 /*
 IMPORTANT:
@@ -317,15 +316,29 @@ Socket Actions
             //Flash Spread Graph
             //Draw the next lines in Profit Graph with time period
             Spread_Graph.drawBatchFlash();
-            Spread_Graph.startBatchTimer();
+
+     
         } else if(obj.BATCH != undefined){
-            console.log("FBA Batch Message in index.html");
+            // if(){
+            //     if this is start of batch
+            //      start timer
+            // } else if (){
+            //     if batch has just been processed
+            //     draw batch lines and flash spread graph
+            //}
             //Flash Spread Graph
             Spread_Graph.drawBatchFlash();
             //draw timer reset
-            //Draw the next lines in Profit Graph with time period 
-        }
 
+            //Draw the next lines in Profit Graph with time period 
+            if (Profit_Graph.currentTime + Profit_Graph.advanceTimeShown > Profit_Graph.batchLines[Profit_Graph.batchLines.length - 1] + Profit_Graph.batchLength ||
+                Math.max(Profit_Graph.adminStartTime, Profit_Graph.currentTime - Profit_Graph.timeInterval) < Profit_Graph.batchLines[0] - Profit_Graph.batchLength) {
+                Profit_Graph.batchLines = Profit_Graph.calcBatchLines(Profit_Graph.currentTime - Profit_Graph.timeInterval, Profit_Graph.currentTime + Profit_Graph.advanceTimeShown, Profit_Graph.batchLength);      ////changed to *1000000 4/17/17 line 497
+            }else{
+                Profit_Graph.batchLines = Profit_Graph.calcBatchLines(Profit_Graph.currentTime - Profit_Graph.timeInterval, Profit_Graph.currentTime + Profit_Graph.advanceTimeShown, Profit_Graph.batchLength);    //remember to take this out 4/17/17
+            }
+             Profit_Graph.drawBatchLines();
+        }
     };
 
     // Show a disconnected message when the WebSocket is closed.

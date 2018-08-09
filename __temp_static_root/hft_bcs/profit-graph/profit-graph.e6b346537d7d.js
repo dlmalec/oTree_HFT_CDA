@@ -348,43 +348,36 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
     }
 
     drawBatchLines(){
-        // Profit_Graph.profitSVG.selectAll("line.batch-line")
-        //                     .data(Profit_Graph.batchLines)         
-        //                     .enter()
-        //                     .append("line")
-        //                     .filter(function (d) {
-        //                         // only draw elements that are an even number of increments from the start
-        //                         return ((d - Profit_Graph.adminStartTime) / (Profit_Graph.timeIncrement)) % 50 == 0;
-        //                     })
-        //                     .attr("id","REMOVE")
-        //                     .attr("x1", function (d) {
-        //                     return Profit_Graph.mapTimeToXAxis(d);
-        //                     })
-        //                     .attr("x2", function (d) {
-        //                     return Profit_Graph.mapTimeToXAxis(d);
-        //                     })
-        //                     .attr("y1", 0)
-        //                     .attr("y2", Profit_Graph.profitElementHeight)
-        //                     .attr("class", "batch-line");
+        
+        Profit_Graph.profitSVG.selectAll("line.batch-line")
+                            .data(Profit_Graph.batchLines)         
+                            .enter()
+                            .append("line")
+                            .attr("id","REMOVE")
+                            .attr("x1", function (d) {
+                            return Profit_Graph.mapTimeToXAxis(d);
+                            })
+                            .attr("x2", function (d) {
+                            return Profit_Graph.mapTimeToXAxis(d);
+                            })
+                            .attr("y1", 0)
+                            .attr("y2", Profit_Graph.profitElementHeight)
+                            .attr("class", "batch-line");
 
-        // Profit_Graph.profitSVG.selectAll("text.batch-label-text")
-        //                     .data(Profit_Graph.batchLines)
-        //                     .enter()
-        //                     .append("text")
-        //                     .filter(function (d) {
-        //                         // only draw elements that are an even number of increments from the start
-        //                         return ((d - Profit_Graph.adminStartTime) / (Profit_Graph.timeIncrement)) % 50 == 0;
-        //                     })
-        //                     .attr("id","REMOVE")
-        //                     .attr("text-anchor", "start")
-        //                     .attr("x", function (d) {
-        //                     return Profit_Graph.mapTimeToXAxis(d) + 5;
-        //                     })
-        //                     .attr("y", Profit_Graph.profitElementHeight - 5)
-        //                     .text(function (d) {
-        //                     return Profit_Graph.millisToTime(d)
-        //                     })
-        //                     .attr("class", "batch-label-text");
+        Profit_Graph.profitSVG.selectAll("text.batch-label-text")
+                            .data(Profit_Graph.batchLines)
+                            .enter()
+                            .append("text")
+                            .attr("id","REMOVE")
+                            .attr("text-anchor", "start")
+                            .attr("x", function (d) {
+                            return Profit_Graph.mapTimeToXAxis(d) + 5;
+                            })
+                            .attr("y", Profit_Graph.profitElementHeight - 5)
+                            .text(function (d) {
+                            return Profit_Graph.millisToTime(d)
+                            })
+                            .attr("class", "batch-label-text");
 
         // Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
         //     .data(Profit_Graph.batchLines)
@@ -523,8 +516,8 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
             }
             Profit_Graph.drawTimeGridLines();
         } else if(oTreeConstants.FBA == true) {
-            Profit_Graph.batchLines = Profit_Graph.calcBatchLines(Profit_Graph.adminStartTime, Profit_Graph.adminStartTime + Profit_Graph.timeInterval + Profit_Graph.advanceTimeShown, Profit_Graph.batchLength);
-            Profit_Graph.drawBatchLines();
+            
+            //Profit_Graph.drawBatchLines();
         }
         
         Profit_Graph.drawPriceGridLines();

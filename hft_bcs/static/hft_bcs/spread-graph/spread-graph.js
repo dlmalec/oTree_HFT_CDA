@@ -96,7 +96,7 @@ class SpreadGraph extends PolymerElement {
     Spread_Graph.spread_svg_dom.style.width = Spread_Graph.spread_width;
     Spread_Graph.spread_svg_dom.style.height = Spread_Graph.spread_height;
     Spread_Graph.smallest_spread = true;
-    Spread_Graph.batchLines = [];
+
 
 
     //d3 Selection of the SVG we will be using this variable from now on
@@ -147,7 +147,7 @@ class SpreadGraph extends PolymerElement {
                        .style("stroke-width", 3);
 
     if(oTreeConstants.FBA == true){
-        console.log("Calleeeddd");
+
         var batch_timer = Spread_Graph.timer_svg.append("svg:line")
                             .attr("x1", 0)
                             .attr("y1", Spread_Graph.spread_height - 10)
