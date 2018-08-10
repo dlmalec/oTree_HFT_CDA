@@ -368,6 +368,10 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
                             .data(Profit_Graph.batchLines)
                             .enter()
                             .append("text")
+                            .filter(function (d) {
+                                // only draw elements that are an even number of increments from the start
+                                return ((d - Profit_Graph.adminStartTime) / (Profit_Graph.timeIncrement)) % 50 == 0;
+                            })
                             .attr("id","REMOVE")
                             .attr("text-anchor", "start")
                             .attr("x", function (d) {

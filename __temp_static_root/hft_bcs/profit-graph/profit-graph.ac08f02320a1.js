@@ -137,7 +137,7 @@ class ProfitGraph extends PolymerElement {
    
     Profit_Graph.profitJumps = [];
 
-    Profit_Graph.batchLength = oTreeConstants.batch_length * 1000000000;
+    Profit_Graph.batchLength = oTreeConstants.batch_length * 10000000000;
     Profit_Graph.batchLines = [];
 
     //------------------------------------------------

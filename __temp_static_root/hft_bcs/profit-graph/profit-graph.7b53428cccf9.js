@@ -364,20 +364,41 @@ Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
                             .attr("y2", Profit_Graph.profitElementHeight)
                             .attr("class", "batch-line");
 
-        Profit_Graph.profitSVG.selectAll("text.batch-label-text")
-                            .data(Profit_Graph.batchLines)
-                            .enter()
-                            .append("text")
-                            .attr("id","REMOVE")
-                            .attr("text-anchor", "start")
-                            .attr("x", function (d) {
-                            return Profit_Graph.mapTimeToXAxis(d) + 5;
-                            })
-                            .attr("y", Profit_Graph.profitElementHeight - 5)
-                            .text(function (d) {
-                            return Profit_Graph.millisToTime(d)
-                            })
-                            .attr("class", "batch-label-text");
+        // Profit_Graph.profitSVG.selectAll("text.batch-label-text")
+        //                     .data(Profit_Graph.batchLines)
+        //                     .enter()
+        //                     .append("text")
+        //                     .filter(function (d) {
+        //                         // only draw elements that are an even number of increments from the start
+        //                         return ((d - Profit_Graph.adminStartTime) / (Profit_Graph.timeIncrement)) % 50 == 0;
+        //                     })
+        //                     .attr("id","REMOVE")
+        //                     .attr("text-anchor", "start")
+        //                     .attr("x", function (d) {
+        //                     return Profit_Graph.mapTimeToXAxis(d) + 5;
+        //                     })
+        //                     .attr("y", Profit_Graph.profitElementHeight - 5)
+        //                     .text(function (d) {
+        //                     return Profit_Graph.millisToTime(d)
+        //                     })
+        //                     .attr("class", "batch-label-text");
+
+        // Profit_Graph.profitSVG.selectAll("rect.time-grid-box-dark")
+        //     .data(Profit_Graph.batchLines)
+        //     .enter()
+        //     .append("rect")
+        //     .filter(function (d) {
+        //         // only draw elements that are an even number of increments from the start
+        //         return ((d - Profit_Graph.adminStartTime) / (Profit_Graph.timeIncrement)) % 2 == 0;
+        //     })
+        //     .attr("x", function (d) {
+        //        return Profit_Graph.mapTimeToXAxis(d);
+        //     })
+        //     .attr("y", 0)
+        //     // width of a sinle timeIncrement should be 5 secs ?
+        //     .attr("width", Profit_Graph.timeIncrement / Profit_Graph.timeInterval * (Profit_Graph.profitElementWidth - Profit_Graph.axisLabelWidth - Profit_Graph.graphPaddingRight))   
+        //     .attr("height", Profit_Graph.profitElementHeight)
+        //     .attr("class", "time-grid-box-dark");
 
     }
 

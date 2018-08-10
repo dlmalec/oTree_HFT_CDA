@@ -315,6 +315,7 @@ Socket Actions
             console.log("FBA Batch Message in index.html");
             //Flash Spread Graph
             //Draw the next lines in Profit Graph with time period
+  
             Spread_Graph.drawBatchFlash();
 
      
@@ -330,14 +331,7 @@ Socket Actions
             Spread_Graph.drawBatchFlash();
             //draw timer reset
 
-            //Draw the next lines in Profit Graph with time period 
-            if (Profit_Graph.currentTime + Profit_Graph.advanceTimeShown > Profit_Graph.batchLines[Profit_Graph.batchLines.length - 1] + Profit_Graph.batchLength ||
-                Math.max(Profit_Graph.adminStartTime, Profit_Graph.currentTime - Profit_Graph.timeInterval) < Profit_Graph.batchLines[0] - Profit_Graph.batchLength) {
-                Profit_Graph.batchLines = Profit_Graph.calcBatchLines(Profit_Graph.currentTime - Profit_Graph.timeInterval, Profit_Graph.currentTime + Profit_Graph.advanceTimeShown, Profit_Graph.batchLength);      ////changed to *1000000 4/17/17 line 497
-            }else{
-                Profit_Graph.batchLines = Profit_Graph.calcBatchLines(Profit_Graph.currentTime - Profit_Graph.timeInterval, Profit_Graph.currentTime + Profit_Graph.advanceTimeShown, Profit_Graph.batchLength);    //remember to take this out 4/17/17
-            }
-             Profit_Graph.drawBatchLines();
+
         }
     };
 
