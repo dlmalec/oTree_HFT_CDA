@@ -151,7 +151,7 @@ class InputSection extends PolymerElement {
     Input_Section.shadow_dom =  document.querySelector("input-section").shadowRoot;
     Input_Section.shadow_dom_D3 = d3.select(Input_Section.shadow_dom);
     //Input_Section.shadow_dom_D3
-    console.log(Input_Section.shadow_dom_D3);
+    console.log(Input_Section.shadow_dom_D3._groups[0][0]);
     console.log("THIs hee");
     Input_Section.Button_Pressed = this.Button_Pressed;
     Input_Section.startBatchTimer = this.startBatchTimer;
