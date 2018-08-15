@@ -151,7 +151,7 @@ class InputSection extends PolymerElement {
     Input_Section.shadow_dom =  document.querySelector("input-section").shadowRoot;
     Input_Section.shadow_dom_D3 = d3.select(Input_Section.shadow_dom);
     //Input_Section.shadow_dom_D3
-    console.log(Input_Section.shadow_dom_D3._groups);
+    console.log(Input_Section.shadow_dom_D3);
     console.log("THIs hee");
     Input_Section.Button_Pressed = this.Button_Pressed;
     Input_Section.startBatchTimer = this.startBatchTimer;
@@ -264,7 +264,7 @@ class InputSection extends PolymerElement {
        document.querySelector('info-table').setAttribute("player_role","SNIPER"); 
     }
        console.log(msg);
-     Spread_Graph.clear();
+    Spread_Graph.clear();
     delete Spread_Graph.spread_lines[oTreeConstants.player_id]
      document.querySelector('info-table').spread_value = 0;
      input_object.path[1].querySelector("#speed_checkbox").checked = false;

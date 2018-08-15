@@ -274,7 +274,7 @@ class SpreadGraph extends PolymerElement {
   drawMySpreadLines(newLines={}, offset=0, exec={}, inv=false){
     if(oTreeConstants.end_msg == "off"){
         //Spread_Graph.clear();
-        
+        Spread_Graph.spread_svg.selectAll(".my_line").remove();
         var exec_side = "";
         var exec_spread = "";
         var player_id = oTreeConstants.player_id_in_group;

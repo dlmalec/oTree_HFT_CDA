@@ -165,26 +165,23 @@ class SpreadGraph extends PolymerElement {
         if(role == "MAKER"){
 
         
-            var svg_middle_x = Spread_Graph.spread_width / 2;
-            var fp_line_y = Spread_Graph.spread_height / 2;
+          var svg_middle_x = Spread_Graph.spread_width / 2;
+          var fp_line_y = Spread_Graph.spread_height / 2;
 
-            var clicked_point = {
+          var clicked_point = {
 
             x:(d3.event.clientX ),
             y:(d3.event.clientY - Spread_Graph.svg_y_offset)
 
-            };
+          };
 
 
-            var distance_from_middle = Math.abs((clicked_point.y) - fp_line_y);
+          var distance_from_middle = Math.abs((clicked_point.y) - fp_line_y);
 
-            var ratio = distance_from_middle / (Spread_Graph.spread_height/2);
+          var ratio = distance_from_middle / (Spread_Graph.spread_height/2);
 
-            var my_spread = (ratio*oTreeConstants.max_spread).toFixed(0);
-            console.log(my_spread);
-            if(my_spread < oTreeConstants.min_spread){
-                my_spread = oTreeConstants.min_spread;
-            }
+          var my_spread = (ratio*oTreeConstants.max_spread).toFixed(0);
+          console.log(my_spread);
             Spread_Graph.sendSpreadChange(my_spread);
           } else if(role == "OUT"){
              //  //Send in default order for maker
@@ -238,9 +235,7 @@ class SpreadGraph extends PolymerElement {
                     var ratio = distance_from_middle / (Spread_Graph.spread_height / 2);
 
                     var my_spread = (ratio * oTreeConstants.max_spread).toFixed(0);
-                    if(my_spread < oTreeConstants.min_spread){
-                        my_spread = oTreeConstants.min_spread;
-                    }
+
                     Spread_Graph.sendSpreadChange(my_spread);
                 }
     });
@@ -273,8 +268,7 @@ class SpreadGraph extends PolymerElement {
 
   drawMySpreadLines(newLines={}, offset=0, exec={}, inv=false){
     if(oTreeConstants.end_msg == "off"){
-        //Spread_Graph.clear();
-        
+        Spread_Graph.clear();
         var exec_side = "";
         var exec_spread = "";
         var player_id = oTreeConstants.player_id_in_group;
