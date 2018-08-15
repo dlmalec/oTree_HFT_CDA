@@ -148,13 +148,13 @@ class InputSection extends PolymerElement {
     this.socket = socketActions.socket;
     //Start as speed false
     this.speed = false;
-    inputSection.shadow_dom =  document.querySelector("input-section").shadowRoot;
-    inputSection.shadow_dom_D3 = d3.select(inputSection.shadow_dom);
-    //inputSection.shadow_dom_D3
-    console.log(inputSection.shadow_dom_D3);
+    Input_Section.shadow_dom =  document.querySelector("input-section").shadowRoot;
+    Input_Section.shadow_dom_D3 = d3.select(Input_Section.shadow_dom);
+    //Input_Section.shadow_dom_D3
+    console.log(Input_Section.shadow_dom_D3);
     console.log("THIs hee");
-    inputSection.Button_Pressed = this.Button_Pressed;
-    inputSection.startBatchTimer = this.startBatchTimer;
+    Input_Section.Button_Pressed = this.Button_Pressed;
+    Input_Section.startBatchTimer = this.startBatchTimer;
   }
 
   makerClick(input_object){
@@ -168,27 +168,27 @@ class InputSection extends PolymerElement {
         * the querySelector can then access each input and we can */
         input_object.path[0].className = "button-pressed";
 
-        var timeNow = profitGraph.getTime() - otreeConstants.timeOffset;
-            profitGraph.profitSegments.push(
+        var timeNow = Profit_Graph.getTime() - otreeConstants.timeOffset;
+            Profit_Graph.profitSegments.push(
                 {
                     startTime:timeNow,
                     endTime:timeNow, 
-                    startProfit:profitGraph.profit, 
-                    endProfit:profitGraph.profit,
+                    startProfit:Profit_Graph.profit, 
+                    endProfit:Profit_Graph.profit,
                     state:"MAKER"
                 }
             );
 
         var msg = {
             type: 'role_change',
-            id: otreeConstants.playerID ,
-            id_in_group: otreeConstants.playerIDInGroup,
+            id: otreeConstants.player_id ,
+            id_in_group: otreeConstants.player_id_in_group,
             state: "MAKER"
         };
         var speed_msg = {
             type: 'speed_change',
-            id: otreeConstants.playerID ,
-            id_in_group: otreeConstants.playerIDInGroup,
+            id: otreeConstants.player_id ,
+            id_in_group: otreeConstants.player_id_in_group,
             speed: false 
         };
 
@@ -207,7 +207,7 @@ class InputSection extends PolymerElement {
      
      input_object.path[1].querySelector("#out").className = "button-off";
      input_object.path[1].querySelector("#sniper").className = "button-off";
-     document.querySelector('info-table').spread_value = (spreadGraph.last_spread / 10000).toFixed(2);
+     document.querySelector('info-table').spread_value = (Spread_Graph.last_spread / 10000).toFixed(2);
      input_object.path[1].querySelector("#speed_checkbox").checked = false;
      if(this.speed){
      this.speed = !this.speed;
@@ -229,27 +229,27 @@ class InputSection extends PolymerElement {
 
         input_object.path[0].className = "button-pressed";
 
-        var timeNow = profitGraph.getTime() - otreeConstants.timeOffset;
-            profitGraph.profitSegments.push(
+        var timeNow = Profit_Graph.getTime() - otreeConstants.timeOffset;
+            Profit_Graph.profitSegments.push(
                 {
                     startTime:timeNow,
                     endTime:timeNow, 
-                    startProfit:profitGraph.profit, 
-                    endProfit:profitGraph.profit,
+                    startProfit:Profit_Graph.profit, 
+                    endProfit:Profit_Graph.profit,
                     state:"SNIPER"
                 }
             );
 
         var msg = {
             type: 'role_change',
-            id: otreeConstants.playerID ,
-            id_in_group: otreeConstants.playerIDInGroup,
+            id: otreeConstants.player_id ,
+            id_in_group: otreeConstants.player_id_in_group,
             state: "SNIPER"
         };
         var speed_msg = {
               type: 'speed_change',
-              id: otreeConstants.playerID ,
-              id_in_group: otreeConstants.playerIDInGroup,
+              id: otreeConstants.player_id ,
+              id_in_group: otreeConstants.player_id_in_group,
               speed: false 
           };
         if (this.socket.readyState === this.socket.OPEN) {
@@ -264,8 +264,8 @@ class InputSection extends PolymerElement {
        document.querySelector('info-table').setAttribute("player_role","SNIPER"); 
     }
        console.log(msg);
-    spreadGraph.clear();
-    delete spreadGraph.spread_lines[otreeConstants.playerID]
+    Spread_Graph.clear();
+    delete Spread_Graph.spread_lines[otreeConstants.player_id]
      document.querySelector('info-table').spread_value = 0;
      input_object.path[1].querySelector("#speed_checkbox").checked = false;
      input_object.path[1].querySelector("#maker").className = "button-off";
@@ -287,27 +287,27 @@ class InputSection extends PolymerElement {
         * input_object.path[1] is the actual input-selection element (Shadow DOM that we create using Polymer 3.0), once we access this -
         * the querySelector can then access each input and we can */
         input_object.path[0].className = "button-on";
-        var timeNow = profitGraph.getTime() - otreeConstants.timeOffset;
+        var timeNow = Profit_Graph.getTime() - otreeConstants.timeOffset;
 
-        profitGraph.profitSegments.push(
+        Profit_Graph.profitSegments.push(
                 {
                     startTime:timeNow,
                     endTime:timeNow, 
-                    startProfit:profitGraph.profit, 
-                    endProfit:profitGraph.profit,
+                    startProfit:Profit_Graph.profit, 
+                    endProfit:Profit_Graph.profit,
                     state:"OUT"
                 }
             );
         var msg = {
             type: 'role_change',
-            id: otreeConstants.playerID ,
-            id_in_group: otreeConstants.playerIDInGroup,
+            id: otreeConstants.player_id ,
+            id_in_group: otreeConstants.player_id_in_group,
             state: "Out"
         };
         var speed_msg = {
               type: 'speed_change',
-              id: otreeConstants.playerID ,
-              id_in_group: otreeConstants.playerIDInGroup,
+              id: otreeConstants.player_id ,
+              id_in_group: otreeConstants.player_id_in_group,
               speed: this.speed 
           };
 
@@ -333,8 +333,8 @@ class InputSection extends PolymerElement {
      this.speed = !this.speed;
      document.querySelector('info-table').setAttribute("speed_cost","0");
     }
-    spreadGraph.clear();
-    delete spreadGraph.spread_lines[otreeConstants.playerID]
+    Spread_Graph.clear();
+    delete Spread_Graph.spread_lines[otreeConstants.player_id]
   }
 
    Button_Pressed(input_object){
@@ -359,25 +359,25 @@ class InputSection extends PolymerElement {
 
           this.speed = !this.speed;
           if(this.speed){
-              document.querySelector('info-table').setAttribute("speed_cost",(otreeConstants.speedCost * (1e-4) * (1e9)).toFixed(3));
+              document.querySelector('info-table').setAttribute("speed_cost",(otreeConstants.speed_cost * (1e-4) * (1e9)).toFixed(3));
           }else {
               document.querySelector('info-table').setAttribute("speed_cost",0);
           }
-        var timeNow = profitGraph.getTime() - profitGraph.timeOffset;
-        profitGraph.profitSegments.push(
+        var timeNow = Profit_Graph.getTime() - Profit_Graph.timeOffset;
+        Profit_Graph.profitSegments.push(
             {
                 startTime:timeNow,
                 endTime:timeNow, 
-                startProfit:profitGraph.profit, 
-                endProfit:profitGraph.profit,
+                startProfit:Profit_Graph.profit, 
+                endProfit:Profit_Graph.profit,
                 state:document.querySelector('info-table').player_role
             }
         );
 
           var msg = {
               type: 'speed_change',
-              id: otreeConstants.playerID ,
-              id_in_group: otreeConstants.playerIDInGroup,
+              id: otreeConstants.player_id ,
+              id_in_group: otreeConstants.player_id_in_group,
               speed: this.speed
           };
 

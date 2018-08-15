@@ -272,7 +272,7 @@ class SpreadGraph extends PolymerElement {
   }
 
   drawMySpreadLines(newLines={}, offset=0, exec={}, inv=false){
-    if(otreeConstants.endMsg == "off"){
+    if(otreeConstants.end_msg == "off"){
         //spreadGraph.clear();
         
         var exec_side = "";

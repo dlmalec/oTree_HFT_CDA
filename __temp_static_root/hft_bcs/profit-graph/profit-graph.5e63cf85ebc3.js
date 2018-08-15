@@ -137,7 +137,7 @@ class ProfitGraph extends PolymerElement {
    
     profitGraph.profitJumps = [];
 
-    profitGraph.batchLength = otreeConstants.batchLength * 1000000000;
+    profitGraph.batchLength = otreeConstants.batch_length * 1000000000;
     profitGraph.batchLines = [];
 
     //------------------------------------------------
@@ -534,7 +534,7 @@ profitGraph.profitSVG.selectAll("rect.time-grid-box-dark")
     profitGraph.profit = profitGraph.profitSegments[profitGraph.profitSegments.length - 1]["startProfit"] + profitDecrement;
     profitGraph.drawProfit(profitGraph.profitSegments, profitGraph.profitJumps);
 
-        if(otreeConstants.endMsg == "off"){
+        if(otreeConstants.end_msg == "off"){
             requestAnimationFrame(profitGraph.draw);
         } else {
             profitGraph.clear();
