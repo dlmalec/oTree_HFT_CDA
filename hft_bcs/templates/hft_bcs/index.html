@@ -94,10 +94,11 @@ Constant, Player, and Group Information from oTree stored in the oTreeConstants 
     oTreeConstants.starting_wealth = {{player.profit}};
     oTreeConstants.startFP = {{player.default_fp}}; 
     oTreeConstants.smallest_spread = {"key":-1, "spread":oTreeConstants.max_spread};
-    oTreeConstants.min_spread = 0.01 * 10000;
+    oTreeConstants.min_spread = 100;
     oTreeConstants.round_length = {{subsession.round_length}};
     oTreeConstants.timeOffset = 0; 
     oTreeConstants.speed_cost = {{player.speed_cost}};
+    console.log(oTreeConstants.speed_cost);
     oTreeConstants.end_msg = "off";
     oTreeConstants.batch_length = undefined;
     oTreeConstants.FBA = false;
@@ -166,7 +167,6 @@ Socket Actions
             var FPCDollarAmount = (obj.FPC*(1e-4)).toFixed(2);
             document.querySelector('info-table').fp = FPCDollarAmount;
             Spread_Graph.updateBidAndAsk(FPCDollarAmount,spread);
-            //Spread_Graph.clear();
             Spread_Graph.spread_svg.selectAll(".others_line").remove();
             Spread_Graph.spread_svg.selectAll("rect").remove();
             Spread_Graph.drawMySpreadLines({}, difference / 10);
@@ -177,10 +177,6 @@ Socket Actions
                     Spread_Graph.spread_lines[key][token] -= parseInt(difference);
                 }
             }
-            // window.setTimeout(function(){
-            //     Spread_Graph.clear();
-            //     Spread_Graph.drawMySpreadLines({}, 0);
-            // },500);
         }else if(obj.EXEC != undefined){
             var timeNow = Profit_Graph.getTime() - oTreeConstants.timeOffset;
             var exec = {};
